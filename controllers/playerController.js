@@ -14,4 +14,14 @@ const getPlayer = async (req, res, next) => {
   }
 };
 
-module.exports = { getPlayer };
+const getPlayersByNationality = async (req, res, next) => {
+  try {
+    const { nationality } = req.query; 
+    const players = await Player.find({ nationality });
+    res.json(players);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getPlayer, getPlayersByNationality };

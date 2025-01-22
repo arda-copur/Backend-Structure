@@ -14,4 +14,14 @@ const getTeam = async (req, res, next) => {
   }
 };
 
-module.exports = { getTeam };
+const getTeamsByPlayers = async (req, res, next) => {
+  try {
+    const { playerIds } = req.query; 
+    const teams = await Team.find({ players: { $in: playerIds.split(',') } }).populate('players');
+    res.json(teams);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getTeam, getTeamsByPlayers };

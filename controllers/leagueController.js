@@ -36,4 +36,14 @@ const createLeague = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllLeagues, getLeague, createLeague };
+const getLeaguesByTeams = async (req, res, next) => {
+  try {
+    const { teamIds } = req.query; 
+    const leagues = await League.find({ teams: { $in: teamIds.split(',') } }).populate('teams');
+    res.json(leagues);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllLeagues, getLeague, createLeague, getLeaguesByTeams };
